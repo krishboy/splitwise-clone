@@ -1,17 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.routes import user
 
 app = FastAPI()
+app.include_router(user.router)
 
 origins = [ "http://localhost:3000", ]
 
 app.add_middleware(
     CORSMiddleware,
-    alloe_origins=origins,
+    allow_origins=origins,
     allow_credentials=True,
-    alloe_methods=["*"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.get("/")
+@app.get("/")
 def root():
     return {"message": "Api is up and running"}
